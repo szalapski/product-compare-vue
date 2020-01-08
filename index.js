@@ -62,19 +62,63 @@ Vue.component('home', {
 
 Vue.component('ProductList', {
     props: {
-        products: Array,
-        compare: Array
+        products: Array
     },
     template: `
     <div class="row mt-3">
         <div v-for="product in products">
-            <Product :key="product.id" :product="product" :compare="compare" />
+            <Product :product="product" />
         </div>
+    </div>  `
+})
 
-   <!--     {products.map(product =>
-        <Product key={product.id} product={product} compare={compare} />
-        )} -->
-    </div>
+Vue.component('Compare', {
+    props: {
+        products: Array
+    },
+    template: `
+        <div class="row compare">
+            <div class="col-12 mt-5 text-center">
+            <table class="table">
+                <thead class="thead-default">
+                    <tr>
+                        <th />
+                        <v-for="product in products">
+                            <th>
+                                {{product.name}}
+                            </th>
+                        </v-for>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr class="price">
+                    <th scope="row">Price</th>
+                    <v-for="product in products">
+                    <td class="text-center">{{product.price}}</td>
+                    </v-for>
+                </tr>
+                <tr class="colors">
+                    <th scope="row">Colors</th>
+                    <v-for="product in products">
+                        <td>
+                        <v-for="color in product.colors">
+                            <span :class="'bg-' + color" />
+                        </v-for>
+                        </td>
+                    </v-for>
+                </tr>
+                <tr class="condition">
+                    <th scope="row">Condition</th>
+                    <v-for="product in products">
+                    <td :class="product.condition === 'Frozen' ? 'bg-red' : 'bg-green'">
+                        {{product.condition}}
+                    </td>
+                    </v-for>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>  
     `
 })
 
@@ -85,15 +129,14 @@ Vue.component('Product', {
     },
     template: `
     <div :key="product.id" class="col-sm-6 col-md-3">
-        <div :class="{product: true, compare: !!product.compare}" >
+        <div :class="{product: true, compare: product.compare}" >
             <img :src="product.image" :alt="product.name" />
             <div class="image_overlay"/>
             
-            <div class="view_details" onClick="compare">
-                // TODO: need to add compare
-              {product.compare ? "Remove" : "Compare"}
+            <div class="view_details" v-on:click="compare">
+              {{product.compare ? "Remove" : "Compare"}}
+              
             </div>
-                
             <div class="stats">
                 <div class="stats-container">
                     <span class="product_price">{{product.price}}</span>
@@ -103,7 +146,12 @@ Vue.component('Product', {
             </div>
         </div>
     </div>
-    `
+    `,
+    methods: {
+        compare: function(){
+            this.$set(this.product, 'compare', !this.product.compare)
+        }
+    }
 })
 
 var app = new Vue({
