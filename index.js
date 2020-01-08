@@ -43,6 +43,11 @@ Vue.component('home', {
         ]
       }
     },
+    computed: {
+        compareProducts: function() {
+            return this.products.filter(p => p.compare)
+        }
+    },
     template: `
         <div class="app">
             <div class="container mt-4">
@@ -53,7 +58,7 @@ Vue.component('home', {
                         </div>
                     </div>
                     <ProductList :products="products" :compare="actions.compare" />
-                    <!-- <Compare products=":compareProducts}"/> -->
+                    <Compare :products="compareProducts" v-if="compareProducts.length >= 2"/>
                 </div>
             </div>
         </div>
@@ -81,39 +86,30 @@ Vue.component('Compare', {
             <div class="col-12 mt-5 text-center">
             <table class="table">
                 <thead class="thead-default">
+                    
                     <tr>
-                        <th />
-                        <v-for="product in products">
-                            <th>
-                                {{product.name}}
-                            </th>
-                        </v-for>
+                        <th/>
+                        <th v-for="product in products">
+                            {{product.name}}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                 <tr class="price">
                     <th scope="row">Price</th>
-                    <v-for="product in products">
-                    <td class="text-center">{{product.price}}</td>
-                    </v-for>
+                        <td class="text-center" v-for="product in products">{{product.price}}</td>
                 </tr>
                 <tr class="colors">
                     <th scope="row">Colors</th>
-                    <v-for="product in products">
-                        <td>
-                        <v-for="color in product.colors">
-                            <span :class="'bg-' + color" />
-                        </v-for>
-                        </td>
-                    </v-for>
+                    <td v-for="product in products">
+                        <span :class="'bg-' + color" v-for="color in product.colors" />
+                    </td>
                 </tr>
                 <tr class="condition">
                     <th scope="row">Condition</th>
-                    <v-for="product in products">
-                    <td :class="product.condition === 'Frozen' ? 'bg-red' : 'bg-green'">
+                    <td v-for="product in products" :class="product.condition === 'Frozen' ? 'bg-red' : 'bg-green'">
                         {{product.condition}}
                     </td>
-                    </v-for>
                 </tr>
                 </tbody>
             </table>
