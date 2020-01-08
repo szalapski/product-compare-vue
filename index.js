@@ -44,16 +44,20 @@ Vue.component('home', {
       }
     },
     template: `
-        <div className="home mt-5">
-            <div className="row">
-                <div className="col-12">
-                    <h2 className="mb-3">Compare Products</h2>
+        <div class="app">
+            <div class="container mt-4">
+                <div class="home mt-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="mb-3">Compare Products</h2>
+                        </div>
+                    </div>
+                    <ProductList :products="products" :compare="actions.compare" />
+                    <!-- <Compare products=":compareProducts}"/> -->
                 </div>
             </div>
-            <ProductList :products="products" :compare="actions.compare" />
-            <!-- <Compare products=":compareProducts}"/> -->
         </div>
-    `
+        `
 })
 
 Vue.component('ProductList', {
@@ -62,7 +66,7 @@ Vue.component('ProductList', {
         compare: Array
     },
     template: `
-    <div className="row mt-3">
+    <div class="row mt-3">
         <div v-for="product in products">
             <Product :key="product.id" :product="product" :compare="compare" />
         </div>
@@ -80,17 +84,20 @@ Vue.component('Product', {
         product: Object
     },
     template: `
-    <div :key="product.id" className="col-sm-6 col-md-3">
+    <div :key="product.id" class="col-sm-6 col-md-3">
         <div :class="{product: true, compare: !!product.compare}" >
             <img :src="product.image" :alt="product.name" />
             <div class="image_overlay"/>
             
-            TODO className="view_details" 
+            <div class="view_details" onClick="compare">
+                // TODO: need to add compare
+              {product.compare ? "Remove" : "Compare"}
+            </div>
                 
             <div class="stats">
-                <div className="stats-container">
-                    <span className="product_price">{{product.price}}</span>
-                    <span className="product_name">{{product.name}}</span>
+                <div class="stats-container">
+                    <span class="product_price">{{product.price}}</span>
+                    <span class="product_name">{{product.name}}</span>
                     <p>{{product.description}}</p>
                 </div>
             </div>
@@ -100,7 +107,7 @@ Vue.component('Product', {
 })
 
 var app = new Vue({
-    el: '#app',
+    el: '#root',
     data: {
      
       message: 'Hello Vue!'
