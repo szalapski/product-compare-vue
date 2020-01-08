@@ -1,7 +1,7 @@
 # product-compare-vue
 Vue conversion of  Rhymond/product-compare-react
 
-I took the simplest way here: no Vue CLI, no single-file components, no web host, no SCSS, no app state, no complexity, using CDN-hosted dependencies.
+I took the simplest way here: no Vue CLI, no compilation, no routing, no single-file components, no web host, no SCSS, no app state, no complexity, using CDN-hosted dependencies.
 
 To start the site, just open Index.html in a browser (or write your own web host).
 
